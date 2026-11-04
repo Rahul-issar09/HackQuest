@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 222 38% 7%;
+  --surface: 222 32% 11%;
+  --surface-2: 222 28% 15%;
+  --border: 222 22% 22%;
+  --fg: 214 32% 94%;
+  --muted: 218 16% 66%;
+  --accent: 214 95% 62%;
+  --accent-fg: 222 47% 8%;
+  --success: 148 60% 50%;
+  --warning: 38 92% 56%;
+  --danger: 0 84% 66%;
+  color-scheme: dark;
+}
+:root.light {
+  --bg: 214 30% 97%;
+  --surface: 0 0% 100%;
+  --surface-2: 214 28% 94%;
+  --border: 214 20% 82%;
+  --fg: 222 38% 12%;
+  --muted: 218 14% 38%;
+  --accent: 214 88% 42%;
+  --accent-fg: 0 0% 100%;
+  --success: 148 62% 28%;
+  --warning: 32 90% 34%;
+  --danger: 0 72% 42%;
+  color-scheme: light;
+}
+
+html, body { background: hsl(var(--bg)); color: hsl(var(--fg)); }
+body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+*:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 2px; border-radius: 4px; }
+::selection { background: hsl(var(--accent) / 0.35); }
+
+/* Markdown preview */
+.md { line-height: 1.65; font-size: 0.95rem; overflow-wrap: anywhere; }
+.md h1 { font-size: 1.6rem; font-weight: 700; margin: 1.2rem 0 0.6rem; }
+.md h2 { font-size: 1.3rem; font-weight: 650; margin: 1.1rem 0 0.5rem; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 0.25rem; }
+.md h3 { font-size: 1.1rem; font-weight: 600; margin: 1rem 0 0.4rem; }
+.md p, .md ul, .md ol, .md pre, .md table, .md blockquote { margin: 0.6rem 0; }
+.md ul { list-style: disc; padding-left: 1.4rem; }
+.md ol { list-style: decimal; padding-left: 1.4rem; }
+.md ul.contains-task-list { list-style: none; padding-left: 0.2rem; }
+.md a { color: hsl(var(--accent)); text-decoration: underline; }
+.md blockquote { border-left: 3px solid hsl(var(--accent) / 0.6); padding-left: 0.8rem; color: hsl(var(--muted)); }
+.md code { background: hsl(var(--surface-2)); padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.85em; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.md pre { background: hsl(222 40% 6%); border: 1px solid hsl(var(--border)); border-radius: 8px; padding: 0.8rem; overflow-x: auto; }
+:root.light .md pre { background: hsl(214 30% 95%); }
+.md pre code { background: transparent; padding: 0; }
+.md table { border-collapse: collapse; display: block; overflow-x: auto; }
+.md th, .md td { border: 1px solid hsl(var(--border)); padding: 0.35rem 0.6rem; }
+.md th { background: hsl(var(--surface-2)); }
+.md hr { border-color: hsl(var(--border)); margin: 1rem 0; }
+.md img { max-width: 100%; border-radius: 6px; }
+/* highlight.js tokens (theme-neutral) */
+.hljs-comment, .hljs-quote { color: #7f8ea3; font-style: italic; }
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-doctag { color: #7cb7ff; }
+.hljs-string, .hljs-regexp, .hljs-addition { color: #7ee2a8; }
+.hljs-number, .hljs-built_in, .hljs-type, .hljs-attr { color: #f6c177; }
+.hljs-title, .hljs-section, .hljs-name, .hljs-function { color: #c4a7ff; }
+.hljs-deletion, .hljs-variable, .hljs-template-variable { color: #ff8f8f; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
