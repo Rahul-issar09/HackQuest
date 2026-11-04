@@ -8,8 +8,11 @@ import {
 const oid = Schema.Types.ObjectId;
 const opts = { timestamps: true, versionKey: false } as const;
 
-function model<T>(name: string, collection: string, schema: Schema): Model<T> {
-  return (mongoose.models[name] as Model<T>) || mongoose.model<T>(name, schema, collection);
+// Documents are loosely typed on the server; strict DTO types (lib/types.ts) apply at the API boundary.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyDoc = Record<string, any>;
+function model(name: string, collection: string, schema: Schema): Model<AnyDoc> {
+  return (mongoose.models[name] as Model<AnyDoc>) || mongoose.model<AnyDoc>(name, schema, collection);
 }
 const refList = (ref: string) => ({ type: [{ type: oid, ref }], default: [] });
 

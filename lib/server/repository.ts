@@ -1,5 +1,5 @@
 import "server-only";
-import { Types, type FilterQuery } from "mongoose";
+import { Types } from "mongoose";
 import { MODELS, Attachment, ChallengeAttempt, LearningTask, MockChallengeResult, MockSession, Note, NoteFolder, PracticeReport, Challenge, Resource } from "../db/models";
 import { DEFAULTS, SCHEMAS, zId, type CollectionKey } from "../validation/schemas";
 import { HttpError } from "./api";
@@ -71,9 +71,9 @@ export async function list(key: CrudKey, sp: URLSearchParams) {
   const limit = Math.min(Math.max(Number(sp.get("limit") ?? 200) || 200, 1), 500);
   const page = Math.max(Number(sp.get("page") ?? 1) || 1, 1);
   const full = sp.get("full") === "1";
-  let query = model.find(filter as FilterQuery<Record<string, unknown>>).sort(sort).skip((page - 1) * limit).limit(limit);
+  let query = model.find(filter as never).sort(sort).skip((page - 1) * limit).limit(limit);
   if (cfg.projection && !full) query = query.select(cfg.projection);
-  const [items, total] = await Promise.all([query.lean(), model.countDocuments(filter as FilterQuery<Record<string, unknown>>)]);
+  const [items, total] = await Promise.all([query.lean(), model.countDocuments(filter as never)]);
   return { items: toDto<unknown[]>(items), total, page, limit };
 }
 

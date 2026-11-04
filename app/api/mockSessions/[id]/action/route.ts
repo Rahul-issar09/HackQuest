@@ -38,10 +38,10 @@ export const POST = route<{ id: string }>(async (req, { id }) => {
   if (action === "start") {
     // make sure there is a result row per selected challenge
     const existing = new Set((await MockChallengeResult.find({ mockSessionId: mock._id }).select("challengeId").lean()).map((r) => String(r.challengeId)));
-    const missing = mock.challengeIds.filter((c) => !existing.has(String(c)));
+    const missing = (mock.challengeIds as Types.ObjectId[]).filter((c) => !existing.has(String(c)));
     if (missing.length) await MockChallengeResult.insertMany(missing.map((c) => ({ mockSessionId: mock._id, challengeId: c })));
   }
-  if (action === "finish") await syncAttempts(mock._id, doc?.endedAt ?? new Date());
+  if (action === "finish") await syncAttempts(mock._id as Types.ObjectId, doc?.endedAt ?? new Date());
   return ok(toDto(doc));
 });
 
