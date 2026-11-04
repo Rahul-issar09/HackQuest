@@ -24,6 +24,6 @@ export const PATCH = route(async (req) => {
       throw new HttpError(422, "Validation failed", { readinessWeights: "At least one weight must be above zero" });
     }
   }
-  const doc = await Settings.findOneAndUpdate({ key: "singleton" }, { $set: body }, { new: true, runValidators: true }).lean();
+  const doc = await Settings.findOneAndUpdate({ key: "singleton" }, { $set: body }, { returnDocument: "after", runValidators: true }).lean();
   return ok(toDto(doc));
 });

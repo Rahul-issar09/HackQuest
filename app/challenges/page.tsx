@@ -35,8 +35,8 @@ function ChallengesInner() {
 
   React.useEffect(() => { if (sp.get("log") === "1") { setLogFor({ challengeId: null }); router.replace("/challenges"); } }, [sp, router]);
 
-  const att = attempts.data?.items ?? [];
-  const chs = challenges.data?.items ?? [];
+  const att = React.useMemo(() => attempts.data?.items ?? [], [attempts.data]);
+  const chs = React.useMemo(() => challenges.data?.items ?? [], [challenges.data]);
   const derived = React.useMemo(() => {
     const m = new Map<string, Derived>();
     for (const c of chs) {

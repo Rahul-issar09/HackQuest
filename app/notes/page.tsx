@@ -30,8 +30,8 @@ function NotesInner() {
   const [delFolder, setDelFolder] = React.useState<FolderDto | null>(null);
   const creating = React.useRef(false);
 
-  const all = notes.data?.items ?? [];
-  const fl = folders.data?.items ?? [];
+  const all = React.useMemo(() => notes.data?.items ?? [], [notes.data]);
+  const fl = React.useMemo(() => folders.data?.items ?? [], [folders.data]);
   const tags = React.useMemo(() => { const m = new Map<string, number>(); all.forEach((n) => n.tags.forEach((t) => m.set(t, (m.get(t) ?? 0) + 1))); return [...m.entries()].sort(); }, [all]);
 
   const visible = React.useMemo(() => {

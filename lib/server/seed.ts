@@ -81,7 +81,7 @@ export async function restoreRoadmap() {
   const resByTitle = await seedResources();
   const idByDay = new Map<number, Types.ObjectId>();
   for (const d of SEED_DAYS) {
-    const doc = await RoadmapDay.findOneAndUpdate({ dayNumber: d.n }, { $set: dayDoc(d) }, { upsert: true, new: true, setDefaultsOnInsert: true });
+    const doc = await RoadmapDay.findOneAndUpdate({ dayNumber: d.n }, { $set: dayDoc(d) }, { upsert: true, returnDocument: "after", setDefaultsOnInsert: true });
     idByDay.set(d.n, doc._id as Types.ObjectId);
   }
   const dayIds = [...idByDay.values()];

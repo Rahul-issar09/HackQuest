@@ -23,7 +23,8 @@ const components: Components = {
     <a href={href} target="_blank" rel="noopener noreferrer nofollow">{children}</a>
   ),
   // Only allow images served by this app (attachments) or over https; no data: or javascript: URLs.
-  img: ({ src, alt }) => (typeof src === "string" ? /* eslint-disable-next-line @next/next/no-img-element */ <img src={src} alt={alt ?? ""} loading="lazy" /> : null),
+  // eslint-disable-next-line @next/next/no-img-element
+  img: ({ src, alt }) => (typeof src === "string" ? <img src={src} alt={alt ?? ""} loading="lazy" /> : null),
 };
 
 function MarkdownViewBase({ source }: { source: string }) {

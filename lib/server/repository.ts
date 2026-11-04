@@ -144,7 +144,7 @@ export async function update(key: CrudKey, id: string, body: unknown) {
     }
   }
   const model = MODELS[key] as unknown as import("mongoose").Model<Record<string, unknown>>;
-  const doc = await model.findOneAndUpdate(filter as never, { $set: data }, { new: true, runValidators: true }).lean();
+  const doc = await model.findOneAndUpdate(filter as never, { $set: data }, { returnDocument: "after", runValidators: true }).lean();
   if (!doc) {
     const current = await model.findById(id).lean();
     if (!current) throw new HttpError(404, "Not found");

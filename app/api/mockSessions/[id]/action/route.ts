@@ -33,7 +33,7 @@ export const POST = route<{ id: string }>(async (req, { id }) => {
   }
   const set: Record<string, unknown> = { ...patch };
   for (const k of ["startedAt", "endedAt", "pausedAt"] as const) if (typeof set[k] === "string") set[k] = new Date(set[k] as string);
-  const doc = await MockSession.findByIdAndUpdate(id, { $set: set }, { new: true }).lean();
+  const doc = await MockSession.findByIdAndUpdate(id, { $set: set }, { returnDocument: "after" }).lean();
 
   if (action === "start") {
     // make sure there is a result row per selected challenge

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { CalendarDays, Check, ListTodo, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { addMonths, eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, startOfMonth, startOfWeek } from "date-fns";
 import {
-  Async, Badge, Button, Card, CardTitle, ConfirmDialog, Dialog, EmptyState, ExternalLink, Field, Input, PageHeader, Progress,
+  Async, Badge, Button, Card, ConfirmDialog, Dialog, EmptyState, ExternalLink, Field, Input, PageHeader, Progress,
   Select, Textarea, relevanceTone,
 } from "@/components/ui";
 import { TaskChecklist } from "@/components/roadmap/task-checklist";
