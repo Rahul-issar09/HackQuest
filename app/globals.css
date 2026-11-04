@@ -65,3 +65,11 @@ body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
 .hljs-deletion, .hljs-variable, .hljs-template-variable { color: #ff8f8f; }
 
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* Print: only the report preview (Report Builder -> Print / PDF) */
+@media print {
+  body * { visibility: hidden; }
+  #print-area, #print-area * { visibility: visible; }
+  #print-area { position: absolute; left: 0; top: 0; width: 100%; background: #fff !important; color: #000 !important; border: 0 !important; }
+  #print-area .md pre, #print-area .md code { background: #f3f4f6 !important; color: #111 !important; }
+}
