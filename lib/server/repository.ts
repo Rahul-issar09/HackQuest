@@ -126,11 +126,30 @@ export async function update(key: CrudKey, id: string, body: unknown) {
   zId.parse(id);
   const schema = (SCHEMAS[key] as unknown as import("zod").ZodObject).partial();
   const data = schema.parse(body) as Record<string, unknown>;
-  if (key === "notes") data.lastSavedAt = new Date();
+  const filter: Record<string, unknown> = { _id: id };
+  if (key === "notes") {
+    data.lastSavedAt = new Date();
+    // Optimistic concurrency for notes: the client sends the lastSavedAt it last saw.
+    const expected = (body as { expectedLastSavedAt?: unknown }).expectedLastSavedAt;
+    if (typeof expected === "string" && !Number.isNaN(Date.parse(expected))) filter.lastSavedAt = new Date(expected);
+  }
   await validateRefs(key, data);
+  if (key === "noteFolders" && data.parentFolderId) {
+    // reject moving a folder into itself or one of its descendants
+    let cursor: string | null = String(data.parentFolderId);
+    for (let i = 0; cursor && i < 100; i++) {
+      if (cursor === id) throw new HttpError(422, "Validation failed", { parentFolderId: "A folder cannot be moved inside itself" });
+      const parent = (await NoteFolder.findById(cursor).select("parentFolderId").lean()) as { parentFolderId?: Types.ObjectId | null } | null;
+      cursor = parent?.parentFolderId ? String(parent.parentFolderId) : null;
+    }
+  }
   const model = MODELS[key] as unknown as import("mongoose").Model<Record<string, unknown>>;
-  const doc = await model.findByIdAndUpdate(id, { $set: data }, { new: true, runValidators: true }).lean();
-  if (!doc) throw new HttpError(404, "Not found");
+  const doc = await model.findOneAndUpdate(filter as never, { $set: data }, { new: true, runValidators: true }).lean();
+  if (!doc) {
+    const current = await model.findById(id).lean();
+    if (!current) throw new HttpError(404, "Not found");
+    throw new HttpError(409, "This record was changed elsewhere since you loaded it", toDto(current));
+  }
   return toDto(doc);
 }
 
