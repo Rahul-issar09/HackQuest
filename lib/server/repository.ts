@@ -111,6 +111,7 @@ export async function create(key: CrudKey, body: unknown) {
   const data = schema.parse(merged) as Record<string, unknown>;
   await validateRefs(key, data);
   if (key === "challengeAttempts") await assignAttemptNumber(data);
+  if (key === "notes") data.lastSavedAt = new Date();
   const model = MODELS[key] as unknown as import("mongoose").Model<Record<string, unknown>>;
   const doc = await model.create(data);
   return toDto(doc.toObject());
