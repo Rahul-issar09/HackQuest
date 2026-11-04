@@ -11,10 +11,13 @@ export function TaskChecklist({ tasks, onChanged }: { tasks: LearningTaskDto[]; 
   const [busy, setBusy] = React.useState<string | null>(null);
   async function toggle(t: LearningTaskDto, done: boolean) {
     setBusy(t.id);
+    const completedAt = done ? new Date().toISOString() : null;
+    onChanged({ ...t, status: done ? "completed" : "todo", completedAt }); // optimistic
     try {
-      const updated = await patch<LearningTaskDto>(`/learningTasks/${t.id}`, { status: done ? "completed" : "todo", completedAt: done ? new Date().toISOString() : null });
+      const updated = await patch<LearningTaskDto>(`/learningTasks/${t.id}`, { status: done ? "completed" : "todo", completedAt });
       onChanged(updated);
     } catch (e) {
+      onChanged(t); // revert
       toast.error((e as Error).message);
     } finally {
       setBusy(null);

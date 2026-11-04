@@ -9,8 +9,9 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "seed": "tsx scripts/seed.ts",
-    "db:dev": "tsx scripts/dev-db.ts"
+    "seed": "tsx --conditions=react-server scripts/seed.ts",
+    "db:dev": "tsx scripts/dev-db.ts",
+    "test:e2e": "node tests/e2e/smoke.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -40,6 +41,7 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.29",
     "mongodb-memory-server": "^11.3.0",
+    "playwright-core": "^1.64.1",
     "postcss": "^8.5.32",
     "tailwindcss": "^3.4.19",
     "tsx": "^4.23.15",
