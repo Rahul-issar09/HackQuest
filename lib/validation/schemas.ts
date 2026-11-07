@@ -202,7 +202,7 @@ export const reportSchema = z.object({
 export const studySessionSchema = z.object({
   startedAt: zDate,
   endedAt: zNullableDate,
-  durationMinutes: z.coerce.number().min(0).max(1440),
+  durationMinutes: z.coerce.number().min(0).max(1_000_000),
   linkedRoadmapDayId: zNullableId,
   linkedTaskId: zNullableId,
   notes: text(2000),

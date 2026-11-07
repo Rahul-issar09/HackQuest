@@ -6,6 +6,7 @@ import {
 } from "@/lib/analytics";
 import type { AttemptDto, ChallengeDto } from "@/lib/types";
 import { SEED_DAYS } from "@/data/seed-roadmap";
+import { studySessionSchema } from "@/lib/validation/schemas";
 
 const ch = (id: string, category = "Web Security"): ChallengeDto => ({
   id, title: id, platform: "", url: "", description: "", category, difficulty: "intermediate", tags: [],
@@ -59,6 +60,19 @@ describe("mock timer", () => {
     s = { ...s, ...applyAction(s, "resume", new Date(start.getTime() + 2 * 3600_000)) };
     expect(remainingMs(s, start.getTime() + 3 * 3600_000)).toBe(4 * 3600_000);
     expect(() => applyAction(s, "resume")).toThrow();
+  });
+});
+
+describe("study session validation", () => {
+  it("accepts sessions that run longer than 24 hours", () => {
+    expect(studySessionSchema.parse({
+      startedAt: "2026-11-07T08:00:00.000Z",
+      endedAt: "2026-11-08T09:00:00.000Z",
+      durationMinutes: 1500,
+      linkedRoadmapDayId: null,
+      linkedTaskId: null,
+      notes: "",
+    }).durationMinutes).toBe(1500);
   });
 });
 
